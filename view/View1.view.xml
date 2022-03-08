@@ -1,0 +1,430 @@
+<mvc:View controllerName="PSA_Report3PSA_Report3.controller.View1"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" class="sapUiSizeCompact"
+	xmlns="sap.uxap"
+	xmlns:l="sap.ui.layout"
+	xmlns:m="sap.m" height="100%"
+	xmlns:ui="sap.ui.table">
+	<ObjectPageLayout id="ObjectPageLayout" subSectionLayout="TitleOnLeft" showTitleInHeaderContent="true" upperCaseAnchorBar="false">
+
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<expandedHeading>
+					<m:Title text="" wrapping="true"/>
+				</expandedHeading>
+				<snappedHeading>
+					<m:FlexBox fitContainer="true" alignItems="Center">
+						<m:Title text="" wrapping="true"/>
+					</m:FlexBox>
+				</snappedHeading>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+		<headerContent>
+			<m:FlexBox wrap="Wrap" fitContainer="true">
+				<l:VerticalLayout class="sapUiSmallMarginBeginEnd">
+					<m:FlexBox>
+						<!-- <m:Title text ="Date" wrapping="true" class="sapUiTinyMarginEnd"/> -->
+						<m:Input id="company_code" placeholder="Company Code" class="sapUiSmallMarginBottom" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onPressValueHelp"/>
+						<m:Input id="PSC_Name" placeholder="PSC Name" class="sapUiSmallMarginBottom" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="onPressValueHelp"/>
+						<m:Input id="PSA_Product" placeholder="PSA Product" class="sapUiSmallMarginBottom"/>
+						<m:DatePicker id="Fiscal_Year" placeholder="Fiscal Year" valueFormat="yyyyMMdd" class="sapUiSmallMarginBottom"/>
+						<m:Button id="btn_check" text="Execute" press="onExecute" />
+					</m:FlexBox>
+				</l:VerticalLayout>
+			</m:FlexBox>
+			<m:FlexBox wrap="Wrap" fitContainer="true">
+
+			</m:FlexBox>
+		</headerContent>
+		<sections>
+			<ObjectPageSection title ="{i18n>tab1Title}" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<ui:Table id="tab1" rows="{path:'viewModel>/tabOne'}" selectionMode="None" visibleRowCount= "5">
+							<ui:columns>
+								<ui:Column >
+									<m:Label text="النوع" />
+									<ui:template>
+										<m:Text text="{viewModel>Text}" />
+									</ui:template>
+								</ui:Column>
+								<ui:Column >
+									<m:Label text="سعة تخزين" />
+									<ui:template>
+										<m:Text text="{viewModel>Volume}" />
+									</ui:template>
+								</ui:Column>
+								<ui:Column  >
+									<m:Label text="المخزون داخل المحطة" />
+									<ui:template>
+										<m:Text text="{viewModel>total}" />
+									</ui:template>
+								</ui:Column>
+							</ui:columns>
+						</ui:Table>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<!-- EPF1 Table -->
+			<ObjectPageSection title ="محطة انتاج رقم (1)" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<m:IconTabBar id="EPF1" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+							<m:items>
+								<!-- <m:IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Items" key="All" />
+								<m:IconTabSeparator /> -->
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="ايام" key="Days" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Critical" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="شهور" key="Months" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
+							</m:items>
+							<m:content>
+								<ui:Table id="EPF1_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/termOneTab'}" selectionMode="None">
+									<ui:columns>
+										<!-- <ui:Column width ="50px">
+											<m:Label text="SN" />
+											<ui:template>
+												<m:Text text="{viewModel>SN}" />
+											</ui:template>
+										</ui:Column> -->
+										<ui:Column   width ="auto">
+											<m:Label text="اليوم" />
+											<ui:template>
+												<m:Text text="{viewModel>Day}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column   width ="auto">
+											<m:Label text="التاريخ" />
+											<ui:template>
+												<m:Text text="{viewModel>Date}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الانتاج" />
+											<ui:template>
+												<m:Text text="{viewModel>prd}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الزيت المسحوب" />
+											<ui:template>
+												<m:Text text="{viewModel>lift}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="المتبقي" />
+											<ui:template>
+												<m:Text text="{viewModel>sub}" />
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+								</ui:Table>
+							</m:content>
+						</m:IconTabBar>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<!-- EPF2 Table -->
+			<ObjectPageSection title ="محطة انتاج رقم (2)" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<m:IconTabBar id="EPF2" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+							<m:items>
+								<!-- <m:IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Items" key="All" />
+								<m:IconTabSeparator /> -->
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="ايام" key="Days" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Critical" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="شهور" key="Months" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
+							</m:items>
+							<m:content>
+								<ui:Table id="EPF2_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/termTwoTab'}" selectionMode="None">
+									<ui:columns>
+										<ui:Column   width ="auto">
+											<m:Label text="اليوم" />
+											<ui:template>
+												<m:Text text="{viewModel>Day}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column   width ="auto">
+											<m:Label text="التاريخ" />
+											<ui:template>
+												<m:Text text="{viewModel>Date}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الانتاج" />
+											<ui:template>
+												<m:Text text="{viewModel>prd}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الزيت المسحوب" />
+											<ui:template>
+												<m:Text text="{viewModel>lift}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="المتبقي" />
+											<ui:template>
+												<m:Text text="{viewModel>sub}" />
+											</ui:template>
+										</ui:Column>
+
+									</ui:columns>
+								</ui:Table>
+							</m:content>
+						</m:IconTabBar>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection title ="محطة انتاج رقم (3)" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<m:IconTabBar id="EPF3" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+							<m:items>
+								<!-- <m:IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Items" key="All" />
+								<m:IconTabSeparator /> -->
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="ايام" key="Days" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Critical" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="شهور" key="Months" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
+							</m:items>
+							<m:content>
+								<ui:Table id="EPF3_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/termThreeTab'}" selectionMode="None">
+									<ui:columns>
+										<ui:Column   width ="auto">
+											<m:Label text="اليوم" />
+											<ui:template>
+												<m:Text text="{viewModel>Day}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column   width ="auto">
+											<m:Label text="التاريخ" />
+											<ui:template>
+												<m:Text text="{viewModel>Date}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الانتاج" />
+											<ui:template>
+												<m:Text text="{viewModel>prd}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الزيت المسحوب" />
+											<ui:template>
+												<m:Text text="{viewModel>lift}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="المتبقي" />
+											<ui:template>
+												<m:Text text="{viewModel>sub}" />
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+								</ui:Table>
+							</m:content>
+						</m:IconTabBar>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection title ="محطة انتاج رقم (4)" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<m:IconTabBar id="EPF4" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+							<m:items>
+								<!-- <m:IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Items" key="All" />
+								<m:IconTabSeparator /> -->
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="ايام" key="Days" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Critical" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="شهور" key="Months" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
+							</m:items>
+							<m:content>
+								<ui:Table id="EPF4_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/termFourTeb'}" selectionMode="None">
+									<ui:columns>
+										<ui:Column   width ="auto">
+											<m:Label text="اليوم" />
+											<ui:template>
+												<m:Text text="{viewModel>Day}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column   width ="auto">
+											<m:Label text="التاريخ" />
+											<ui:template>
+												<m:Text text="{viewModel>Date}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الانتاج" />
+											<ui:template>
+												<m:Text text="{viewModel>prd}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الزيت المسحوب" />
+											<ui:template>
+												<m:Text text="{viewModel>lift}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="المتبقي" />
+											<ui:template>
+												<m:Text text="{viewModel>sub}" />
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+								</ui:Table>
+							</m:content>
+						</m:IconTabBar>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection title ="محطة انتاج رقم (5)" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<m:IconTabBar id="EPF5" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+							<m:items>
+								<!-- <m:IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Items" key="All" />
+								<m:IconTabSeparator /> -->
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="ايام" key="Days" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Critical" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="شهور" key="Months" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
+							</m:items>
+							<m:content>
+								<ui:Table id="EPF5_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/termFiveTebTeb'}">
+									<ui:columns>
+										<ui:Column   width ="auto">
+											<m:Label text="اليوم" />
+											<ui:template>
+												<m:Text text="{viewModel>Day}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column   width ="auto">
+											<m:Label text="التاريخ" />
+											<ui:template>
+												<m:Text text="{viewModel>Date}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الانتاج" />
+											<ui:template>
+												<m:Text text="{viewModel>prd}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الزيت المسحوب" />
+											<ui:template>
+												<m:Text text="{viewModel>lift}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="المتبقي" />
+											<ui:template>
+												<m:Text text="{viewModel>sub}" />
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+								</ui:Table>
+							</m:content>
+						</m:IconTabBar>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection title ="محطة انتاج رقم (6)" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<m:IconTabBar id="EPF6" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+							<m:items>
+								<!-- <m:IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Items" key="All" />
+								<m:IconTabSeparator /> -->
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="ايام" key="Days" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Critical" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="شهور" key="Months" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
+							</m:items>
+							<m:content>
+								<ui:Table id="EPF6_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/terrmSixTabTeb'}">
+									<ui:columns>
+										<ui:Column   width ="auto">
+											<m:Label text="اليوم" />
+											<ui:template>
+												<m:Text text="{viewModel>Day}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column   width ="auto">
+											<m:Label text="التاريخ" />
+											<ui:template>
+												<m:Text text="{viewModel>Date}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الانتاج" />
+											<ui:template>
+												<m:Text text="{viewModel>prd}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الزيت المسحوب" />
+											<ui:template>
+												<m:Text text="{viewModel>lift}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="المتبقي" />
+											<ui:template>
+												<m:Text text="{viewModel>sub}" />
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+								</ui:Table>
+							</m:content>
+						</m:IconTabBar>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+			<ObjectPageSection title ="اجمالي المحطات" visible="{viewModel>/showPages}">
+				<subSections>
+					<ObjectPageSubSection>
+						<m:IconTabBar id="totalTerms" select=".onFilterSelect" class="sapUiResponsiveContentPadding">
+							<!-- <m:items>
+								<m:IconTabFilter showAll="true" count="{/ProductCollectionStats/Counts/Total}" text="Items" key="All" />
+								<m:IconTabSeparator />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Positive" count="{/ProductCollectionStats/Counts/Weight/Ok}" text="Days" key="Days" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Critical" count="{/ProductCollectionStats/Counts/Weight/Heavy}" text="Months" key="Months" />
+								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="Quarters" key="Quarters" />
+							</m:items> -->
+							<m:content>
+								<ui:Table id="total_tab" inset="false" showSeparators="Inner" rows="{path:'viewModel>/totalTermsArray'}" selectionMode="None">
+									<ui:columns>
+										<ui:Column   width ="auto">
+											<m:Label text="المحطة" />
+											<ui:template>
+												<m:Text text="{viewModel>Text}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الانتاج" />
+											<ui:template>
+												<m:Text text="{viewModel>totalPdr}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="الزيت المسحوب" />
+											<ui:template>
+												<m:Text text="{viewModel>totalLift}" />
+											</ui:template>
+										</ui:Column>
+										<ui:Column  width ="auto">
+											<m:Label text="المتبقي" />
+											<ui:template>
+												<m:Text text="{viewModel>totalSub}" />
+											</ui:template>
+										</ui:Column>
+									</ui:columns>
+								</ui:Table>
+							</m:content>
+						</m:IconTabBar>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+	</ObjectPageLayout>
+</mvc:View>

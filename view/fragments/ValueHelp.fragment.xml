@@ -1,0 +1,6 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <SelectDialog class="sapUiPopupWithPadding" search="handleValueHelpSearch" confirm="handleValueHelpClose" cancel="handleValueHelpClose">
+        <!--<StandardListItem iconDensityAware="false" iconInset="false" title="{IdNumber}" description="{IdText}" type="Active"/>-->
+    </SelectDialog>
+</core:FragmentDefinition>

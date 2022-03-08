@@ -1,0 +1,194 @@
+<ui:Table id="EPF5_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/tab2'}">
+    <ui:columns>
+        <ui:Column width ="50px">
+            <m:Label text="SN" />
+            <ui:template>
+                <m:Text text="{viewModel>SN}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column   width ="90px">
+            <m:Label text="Day" />
+            <ui:template>
+                <m:Text text="{viewModel>Day}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column   width ="90px">
+            <m:Label text="Date" />
+            <ui:template>
+                <m:Text text="{viewModel>Date}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="W-17(EPF1)" />
+            <ui:template>
+                <m:Text text="{viewModel>col1}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="140px">
+            <m:Label text="الزيت المسحوب(EPF1)" />
+            <ui:template>
+                <m:Text text="{viewModel>col2}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="المتبقي(EPF1)" />
+            <ui:template>
+                <m:Text text="{viewModel>col3}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="120px">
+            <m:Label text="مياة W.C(EPF1)" />
+            <ui:template>
+                <m:Text text="{viewModel>col4}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="W-1(EPF2)" />
+            <ui:template>
+                <m:Text text="{viewModel>col5}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="110px">
+            <m:Label text="W-1-1(EPF2)" />
+            <ui:template>
+                <m:Text text="{viewModel>col6}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="140px">
+            <m:Label text="الزيت المسحوب(EPF2)" />
+            <ui:template>
+                <m:Text text="{viewModel>col7}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="المتبقي(EPF2)" />
+            <ui:template>
+                <m:Text text="{viewModel>col8}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="120px">
+            <m:Label text="مياة W.C(EPF2)" />
+            <ui:template>
+                <m:Text text="{viewModel>col9}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="W-16(EPF3)" />
+            <ui:template>
+                <m:Text text="{viewModel>col10}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="W-18(EPF3)" />
+            <ui:template>
+                <m:Text text="{viewModel>col11}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="140px">
+            <m:Label text="الزيت المسحوب(EPF3)" />
+            <ui:template>
+                <m:Text text="{viewModel>col12}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="المتبقي(EPF3)" />
+            <ui:template>
+                <m:Text text="{viewModel>col13}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="مياة W.C(EPF3)" />
+            <ui:template>
+                <m:Text text="{viewModel>col14}" />
+            </ui:template>
+        </ui:Column>
+        <!--  Term 4 -->
+        <ui:Column width ="100px">
+            <m:Label text="W-21(EPF4)" />
+            <ui:template>
+                <m:Text text="{viewModel>col15}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column width ="100px">
+            <m:Label text="Watania-21-2(EPF4)" />
+            <ui:template>
+                <m:Text text="{viewModel>col16}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column width ="100px">
+            <m:Label text="W 21-3(EPF4)" />
+            <ui:template>
+                <m:Text text="{viewModel>col17}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="140px">
+            <m:Label text="الزيت المسحوب(EPF4)" />
+            <ui:template>
+                <m:Text text="{viewModel>col18}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column width ="100px">
+            <m:Label text="المتبقي(EPF4)" />
+            <ui:template>
+                <m:Text text="{viewModel>col19}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="مياة W.C(EPF4)" />
+            <ui:template>
+                <m:Text text="{viewModel>col20}" />
+            </ui:template>
+        </ui:Column>
+        <!-- Term 5 -->
+        <ui:Column  width ="100px">
+            <m:Label text="W-21-4(EPF5)" />
+            <ui:template>
+                <m:Text text="{viewModel>col21}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="140px">
+            <m:Label text="الزيت المسحوب(EPF5)" />
+            <ui:template>
+                <m:Text text="{viewModel>col22}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column   width ="100px">
+            <m:Label text="المتبقي(EPF5)" />
+            <ui:template>
+                <m:Text text="{viewModel>col23}" />
+            </ui:template>
+        </ui:Column>
+        <!-- المنتظر -->
+        <ui:Column  width ="100px">
+            <m:Label text="Watania-19" />
+            <ui:template>
+                <m:Text text="{viewModel>col24}" />
+            </ui:template>
+        </ui:Column>
+        <!-- الاجمالي -->
+        <ui:Column  width ="100px">
+            <m:Label text="الإنتاج" />
+            <ui:template>
+                <m:Text text="{viewModel>col25}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="الزيت المسحوب " />
+            <ui:template>
+                <m:Text text="{viewModel>col26}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="إجمالي W.C" />
+            <ui:template>
+                <m:Text text="{viewModel>col27}" />
+            </ui:template>
+        </ui:Column>
+        <ui:Column  width ="100px">
+            <m:Label text="المتبقي" />
+            <ui:template>
+                <m:Text text="{viewModel>col28}" />
+            </ui:template>
+        </ui:Column>
+    </ui:columns>
+</ui:Table>
