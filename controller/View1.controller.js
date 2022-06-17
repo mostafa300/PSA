@@ -229,7 +229,8 @@ sap.ui.define([
 				termTwoTab = [],
 				termThreeTab = [],
 				termFourTeb = [],
-				termFiveTebTeb = [];
+				termFiveTebTeb = [],
+				terrmSixTabTeb = [];
 			// divied the array into PSA1 , PSA2 , PSA09	
 			for (var i = 0; i < PsaDeatillSet.length; i++) {
 				if (PsaDeatillSet[i].ShipCode.length > 1 && PsaDeatillSet[i].Distance !== 'PSA09') {
@@ -246,8 +247,9 @@ sap.ui.define([
 			}
 			// collect PSA02 (Lifting)
 			pas2.reduce(function (res, value) {
-				if (!res[value.PrdDate]) {
-					res[value.PrdDate] = {
+				var key = value.PrdDate + value.Term;
+				if (!res[key]) {
+					res[key] = {
 						Bukrs: value.Bukrs,
 						Distance: value.Distance,
 						PrdDate: value.PrdDate,
@@ -258,16 +260,16 @@ sap.ui.define([
 						Term: value.Term,
 						Volume: 0,
 					};
-					pas2Uniqe.push(res[value.PrdDate])
+					pas2Uniqe.push(res[key])
 				}
-				res[value.PrdDate].Volume += value.Volume;
+				res[key].Volume += value.Volume;
 				return res;
 			}, {});
 			console.log(pas2Uniqe);
 
 			// Divied into 5 Terms 
 			for (var i = 0; i < psa1.length; i++) {
-				var ps2a001Index = pas2Uniqe.findIndex(el => el.PrdDate === psa1[i].PrdDate),
+				var ps2a001Index = pas2Uniqe.findIndex(el => el.PrdDate === psa1[i].PrdDate && el.Term === psa1[i].Term),
 					obj = {};
 				if (ps2a001Index !== -1) {
 					if (i === 0) { // first Iteration 
@@ -317,6 +319,8 @@ sap.ui.define([
 					termFourTeb.push(obj);
 				} else if (psa1[i].Term === '0005') {
 					termFiveTebTeb.push(obj);
+				} else if (psa1[i].Term === '0006') {
+					terrmSixTabTeb.push(obj);
 				}
 
 			}
@@ -412,6 +416,26 @@ sap.ui.define([
 			});
 			viewModel.setProperty("/termFiveTebTeb", termFiveTebTeb); // For Binding 
 			viewModel.setProperty("/termFiveTebTebAll", termFiveTebTeb); // For All
+
+			// Term #6
+			//-------------------------------------------------------------------------------------------
+			// 								Term #6
+			//------------------------------------------------------------------------------------------
+			var index_total = lastTotalsSet.findIndex(el => el.term === '6');
+				for (var i = 0; i < terrmSixTabTeb.length; i++) {
+					if (i === 0) {
+						terrmSixTabTeb[i].sub = terrmSixTabTeb[i].prd + parseInt(lastTotalsSet[index_total].sub) - terrmSixTabTeb[i].lift;
+						//terrmSixTabTeb[i].sub = terrmSixTabTeb[i].prd - termFiveTebTeb[i].lift;
+					} else {
+						terrmSixTabTeb[i].sub = terrmSixTabTeb[i].prd + terrmSixTabTeb[i - 1].sub - terrmSixTabTeb[i].lift;
+					}
+				}
+				terrmSixTabTeb.sort((a, b) => {// Sort Descending By Date
+					return b.DateFormat - a.DateFormat;
+				});
+			viewModel.setProperty("/terrmSixTabTeb", terrmSixTabTeb); // For Binding 
+			viewModel.setProperty("/terrmSixTabTebAll", terrmSixTabTeb); // For All
+
 			// PSA 09 
 			viewModel.setProperty("/PSA09Set", pas9);
 
@@ -430,13 +454,15 @@ sap.ui.define([
 				term02 = viewModel.getProperty("/termTwoTab"),
 				term03 = viewModel.getProperty("/termThreeTab"),
 				term04 = viewModel.getProperty("/termFourTeb"),
-				term05 = viewModel.getProperty("/termFiveTebTeb");
+				term05 = viewModel.getProperty("/termFiveTebTeb"),
+				term06 = viewModel.getProperty("/terrmSixTabTeb");
 
 			var totalTerm1 = 0,
 				totalTerm2 = 0,
 				totalTerm3 = 0,
 				totalTerm4 = 0,
 				totalTerm5 = 0,
+				totalTerm6 = 0,
 				tabOne = [],
 				totalTermsArray = [];
 			var totalLift01 = 0, totalPdr01 = 0, totalSub01 = 0;
@@ -444,6 +470,7 @@ sap.ui.define([
 			var totalLift03 = 0, totalPdr03 = 0, totalSub03 = 0;
 			var totalLift04 = 0, totalPdr04 = 0, totalSub04 = 0;
 			var totalLift05 = 0, totalPdr05 = 0, totalSub05 = 0;
+			var totalLift06 = 0, totalPdr06 = 0, totalSub06 = 0;
 			// Get Sub For Evey Term
 			var index_total = lastTotalsSet.findIndex(el => el.term === '1');
 			for (var i = 0; i < term01.length; i++) {
@@ -491,29 +518,53 @@ sap.ui.define([
 			}
 			totalSub05 = totalPdr05 - totalLift05 + parseInt(lastTotalsSet[index_total].sub);
 
+			//term 06
+			var index_total = lastTotalsSet.findIndex(el => el.term === '6');
+			for (var i = 0; i < term06.length; i++) {
+				totalTerm6 = + term06[i].sub;
+				// For New Tab Total
+				totalLift06 += term06[i].lift;
+				totalPdr06 += term06[i].prd;
+				//totalSub05 += term05[i].sub;
+			}
+			totalSub06 = totalPdr06 - totalLift06 ;
+			if (index_total > -1 ){
+				totalSub06 += parseInt(lastTotalsSet[index_total].sub);
+			}
+
 			// Get El Table 
 			for (var i = 0; i < psa09.length; i++) {
 				var obj = {}, total;
 				if (psa09[i].Term === "0001") {
-					obj.total = totalTerm1;
+					obj.total = term01[0].sub;
+					//obj.total = totalTerm1;
 					obj.Volume = psa09[i].Volume;
 					obj.Text = "محطة انتاج رقم (1)";
 				} else if (psa09[i].Term === "0002") {
-					obj.total = totalTerm2;
+					obj.total = term02[0].sub;
+					//obj.total = totalTerm2;
 					obj.Volume = psa09[i].Volume;
 					obj.Text = "محطة انتاج رقم (2)";
 				} else if (psa09[i].Term === "0003") {
-					obj.total = totalTerm3;
+					obj.total = term03[0].sub;
+					//obj.total = totalTerm3;
 					obj.Volume = psa09[i].Volume;
 					obj.Text = "محطة انتاج رقم (3)";
 				} else if (psa09[i].Term === "0004") {
-					obj.total = totalTerm4;
+					obj.total = term04[0].sub;
+					//obj.total = totalTerm4;
 					obj.Volume = psa09[i].Volume;
 					obj.Text = "محطة انتاج رقم (4)";
 				} else if (psa09[i].Term === "0005") {
-					obj.total = totalTerm5;
+					obj.total = term05[0].sub;
+					//obj.total = totalTerm5;
 					obj.Volume = psa09[i].Volume;
 					obj.Text = "محطة انتاج رقم (5)";
+				}else if (psa09[i].Term === "0006") {
+					obj.total = term06[0].sub;
+					//obj.total = totalTerm5;
+					obj.Volume = psa09[i].Volume;
+					obj.Text = "محطة انتاج رقم (6)";
 				}
 
 				tabOne.push(obj);
@@ -550,12 +601,21 @@ sap.ui.define([
 			objTerm01.totalPdr = totalPdr05;
 			objTerm01.totalSub = totalSub05;
 			totalTermsArray.push(objTerm01);
+
+			//term 6
+			objTerm01 = {};
+			objTerm01.Text = "محطة انتاج رقم (6)";
+			objTerm01.totalLift = totalLift06;
+			objTerm01.totalPdr = totalPdr06;
+			objTerm01.totalSub = totalSub06;
+			totalTermsArray.push(objTerm01);
+
 			// الاجمالي 
 			objTerm01 = {};
 			objTerm01.Text = "الاجمالي";
-			objTerm01.totalLift = totalLift01 + totalLift02 + totalLift03 + totalLift04 + totalLift05;
-			objTerm01.totalPdr = totalPdr01 + totalPdr02 + totalPdr03 + totalPdr04 + totalPdr05;
-			objTerm01.totalSub = totalSub01 + totalSub02 + totalSub03 + totalSub04 + totalSub05;
+			objTerm01.totalLift = totalLift01 + totalLift02 + totalLift03 + totalLift04 + totalLift05 + totalLift06;
+			objTerm01.totalPdr = totalPdr01 + totalPdr02 + totalPdr03 + totalPdr04 + totalPdr05 + totalPdr06;
+			objTerm01.totalSub = totalSub01 + totalSub02 + totalSub03 + totalSub04 + totalSub05 + totalSub06;
 			totalTermsArray.push(objTerm01);
 
 
@@ -593,6 +653,10 @@ sap.ui.define([
 				var oBinding = this.byId("EPF5_tab").getBinding("rows"),
 					termOneTab = viewModel.getProperty("/termFiveTebTebAll"),
 					propertyName = "/termFiveTebTeb";
+			} else if (eventName === 'EPF6') {
+				var oBinding = this.byId("EPF6_tab").getBinding("rows"),
+					termOneTab = viewModel.getProperty("/terrmSixTabTebAll"),
+					propertyName = "/terrmSixTabTeb";
 			}
 
 			if (sKey === 'All' || sKey === 'Days')
@@ -606,13 +670,13 @@ sap.ui.define([
 							Date: value.Date.substring(0, 7),
 							lift: 0,
 							prd: 0,
-							sub: 0
+							sub: value.sub
 						};
 						filterArrMonths.push(res[idKey])
 					}
 					res[idKey].lift += value.lift;
 					res[idKey].prd += value.prd;
-					res[idKey].sub += value.sub;
+					//res[idKey].sub += value.sub;
 					return res;
 				}, {});
 				//var filterMonthsName =that.getMonthsName();
@@ -637,14 +701,14 @@ sap.ui.define([
 							Date: value.Date,
 							lift: 0,
 							prd: 0,
-							sub: 0,
+							sub: value.sub,
 							Quarter: quarter
 						};
 						filterArrQuar.push(res[quarter])
 					}
 					res[quarter].lift += value.lift;
 					res[quarter].prd += value.prd;
-					res[quarter].sub += value.sub;
+					//res[quarter].sub += value.sub;
 					return res;
 				}, {});
 				viewModel.setProperty(propertyName, filterArrQuar);
@@ -697,7 +761,7 @@ sap.ui.define([
 				obj.CompanyCode = "1000";
 				obj.PSCName = "ENPEDCO";
 				items.push(obj);
-				this.getView().getModel("viewModel").setProperty("/company_code/results",items);
+				this.getView().getModel("viewModel").setProperty("/company_code/results", items);
 				var oTemplate = new sap.m.StandardListItem({
 					title: "{viewModel>CompanyCode}",
 					description: "{viewModel>PSCName}",
@@ -712,8 +776,8 @@ sap.ui.define([
 			if (helpValueName.lastIndexOf("PSC_Name") > -1) {
 				var items = this.getView().getModel("viewModel").getProperty("/PSC_Name");
 				var oTemplate = new sap.m.StandardListItem({
-					title: "{viewModel>PSCName}",
-					//description: "{viewModel>PSCName}",
+					title: "{viewModel>CompanyCode}",
+					description: "{viewModel>PSCName}",
 					type: "Active"
 				});
 				oController._valueHelpDialog.bindAggregation("items", {

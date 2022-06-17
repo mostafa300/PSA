@@ -290,7 +290,7 @@
 								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
 							</m:items>
 							<m:content>
-								<ui:Table id="EPF5_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/termFiveTebTeb'}">
+								<ui:Table id="EPF5_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/termFiveTebTeb'}" selectionMode="None">
 									<ui:columns>
 										<ui:Column   width ="auto">
 											<m:Label text="اليوم" />
@@ -341,7 +341,7 @@
 								<m:IconTabFilter icon="sap-icon://activities" iconColor="Negative" count="{/ProductCollectionStats/Counts/Weight/Overweight}" text="ربع سنوي" key="Quarters" />
 							</m:items>
 							<m:content>
-								<ui:Table id="EPF6_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/terrmSixTabTeb'}">
+								<ui:Table id="EPF6_tab" inset="false" showSeparators="Inner" headerText="Products" rows="{path:'viewModel>/terrmSixTabTeb'}" selectionMode="None">
 									<ui:columns>
 										<ui:Column   width ="auto">
 											<m:Label text="اليوم" />
